@@ -1,13 +1,52 @@
 ;(function($, window, document, undefined){
-"use strict";
+'use strict';
 $(function(){
   
-  
-  new PX2VW({
-    el: "#px2vw"
+  $('#px2vw li').each(function(){
+    new PX2VW({
+      el: this
+    });
   });
   
+  $('#multiplication li').each(function(){
+    new Multiplication({
+      el: this
+    });
+  });
   
+});
+
+
+
+/*
+## 掛け算
+*/
+
+const Multiplication = Backbone.View.extend({
+  initialize: function(){
+    _.bindAll(this, 'render');
+    
+    this.$val1 = this.$('[name=val1]');
+    this.$val2 = this.$('[name=val2]');
+    this.$result = this.$('[name=result]');
+    
+    this.$val1.on('input paste', this.render);
+    this.$val2.on('input paste', this.render);
+  },
+  render: function(){
+    const self = this;
+    const val1 = this.$val1.val(),
+          val2 = this.$val2.val(),
+          result = Math.round(val1 * val2);
+    
+    this.$result.val(result);
+    
+    setTimeout(function(){
+      self.$result.select();
+      document.execCommand('copy');//クリップボードにコピー
+      self.$val1.focus();
+    }, 10);
+  }
 });
 
 
@@ -18,14 +57,14 @@ $(function(){
 
 const PX2VW = Backbone.View.extend({
   initialize: function(){
-    _.bindAll(this, "render");
+    _.bindAll(this, 'render');
     
-    this.$px = this.$("[name=px]");
-    this.$maxWidth = this.$("[name=max-width]");
-    this.$vw = this.$("[name=vw]");
+    this.$px = this.$('[name=px]');
+    this.$maxWidth = this.$('[name=max-width]');
+    this.$vw = this.$('[name=vw]');
     
-    this.$px.on("input paste", this.render);
-    this.$maxWidth.on("input paste", this.render);
+    this.$px.on('input paste', this.render);
+    this.$maxWidth.on('input paste', this.render);
   },
   render: function(){
     const self = this;
@@ -33,13 +72,13 @@ const PX2VW = Backbone.View.extend({
           maxWidth = this.$maxWidth.val(),
           vw = Math.round(px * 100 / maxWidth * 100) / 100;
     
-    console.log("px", px);
+    console.log('px', px);
     
-    this.$vw.val(vw + "vw");
+    this.$vw.val(vw + 'vw');
     
     setTimeout(function(){
       self.$vw.select();
-      document.execCommand("copy");//クリップボードにコピー
+      document.execCommand('copy');//クリップボードにコピー
       self.$px.focus();
     }, 10);
   }

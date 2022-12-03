@@ -2,6 +2,19 @@ body {
   margin: 20px;
 }
 
-#px2vw {
+.section_1 {
   
+}
+
+.section_1 + .section_1 {
+  margin-top: 2em;
+}
+
+.list_1 {
+  list-style: none;
+  padding: 0;
+}
+
+.list_1 li + li {
+  margin-top: 2em;
 }
